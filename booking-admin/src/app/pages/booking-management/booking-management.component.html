@@ -1,0 +1,253 @@
+<div class="pageHeader">
+  <span
+      class="text-dark fw-bolder text-hover-primary fs-4 flex place-items-center justify-center justify-items-center items-center">
+      <!-- <img src="assets/img/school.svg" class="svg-icon svg-icon-3" style="width:30px"/>  -->
+      <span class="my-auto">إدارة الحجوزات</span>
+
+
+  </span>
+
+</div>
+
+
+
+<div class="card-body py-3 bg-white">
+  <!-- begin::Table container -->
+  <div class="table-responsive">
+    <!-- begin::Table -->
+    <div style="display: none;">
+      {{appointmentsList[0]['name']}}
+    </div>
+    <nz-spin [nzSpinning]="isAppointmentsLisLoading" >
+
+    <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4">
+      <!-- begin::Table head -->
+      <thead>
+        <tr class="fw-bolder text-muted">
+
+          <th>بيانات العميل</th>
+          <th>الملعب</th>
+          <th>اليوم / التاريخ </th>
+          <th>الوقت</th>
+          <th>حالة الدفع</th>
+          <th>حالة الحجز</th>
+     
+          <th>الإجراء </th>
+        </tr>
+      </thead>
+      <!-- end::Table head -->
+      <!-- begin::Table body -->
+
+      <tbody>
+        <ng-container *ngFor="let item of appointmentsList">
+
+
+          <tr>
+
+            <td>
+              <div class="d-flex align-items-center">
+
+                <div class="d-flex justify-content-start flex-column">
+                  <a href="#" class="text-dark fw-bolder text-hover-primary fs-6">
+                    {{item['customer']['name']}}
+
+                  </a>
+                  <span class="text-muted fw-bold text-muted d-block fs-7">
+                    {{item['customer']['phone']}}
+
+                  </span>
+                </div>
+              </div>
+            </td>
+            <td>
+              <a class="text-dark fw-bolder text-hover-primary d-block fs-6">
+
+                {{item['court_name']}}
+              </a>
+
+            </td>
+            <td>
+
+              <div class="">
+                <!--begin::Date-->
+                <span class="fs-6 text-gray-700 fw-bold">
+
+                  {{item['date']}}
+                </span>
+                <!--end::Date-->
+
+                <!--begin::Label-->
+                <div class="fw-semibold text-gray-400">يوم الاحد</div>
+                <!--end::Label-->
+              </div>
+
+            </td>
+            <td class="d-flex justify-content-start flex-shrink-0" style="border: unset;">
+              <div class="border border-gray-300 border-dashed rounded py-2 px-4 m-2">
+                <span class="text-dark fw-bolder text-hover-primary d-block fs-6">
+
+                  {{item['time']}}
+
+                </span>
+              </div>
+
+             
+
+            </td>
+            <td >
+              <!-- <nz-select style="width: 100%" [(ngModel)]="item['payment_status']"
+                (ngModelChange)="updatePaymentStatus(item['payment_status'] , item['id'])">
+                <nz-option nzLabel="مدفوع" nzValue="1"></nz-option>
+                <nz-option nzLabel="غير مدفوع" nzValue="2"></nz-option>
+              </nz-select> -->
+
+              <div class="flex">
+                <span *ngIf="item['payment_status'] === '1'"
+                class="inline-flex items-center px-4 py-2 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                <span>مدفوع</span>
+              </span>
+  
+  
+              <span *ngIf="item['payment_status'] === '2'"
+                class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+                <span>
+                  
+                  غير مدفوع
+                
+                </span>
+              </span>
+              <a (click)="showPaymentStatusModal(item['id'] , item['payment_status'])">
+                <span  [inlineSVG]="
+                          './assets/media/icons/duotune/art/art005.svg'
+                        " class="svg-icon svg-icon-3"></span>
+              </a>
+              </div>
+             
+          
+
+
+            </td>
+            <td>
+              <div class="flex">
+              <!-- <nz-select  style="width: 100%" [(ngModel)]="{{item['status']}}"
+            (ngModelChange)="updateAppointmentStatus(item['status'] ,item['id'])">
+            <nz-option nzLabel="مفعّل" nzValue="1"></nz-option>
+            <nz-option nzLabel="قيد المراجعة" nzValue="2"></nz-option>
+          </nz-select> -->
+          <span *ngIf="item['status'] === '1'"
+          class="inline-flex items-center px-4 py-2 rounded-full text-xs font-medium bg-green-100 text-green-800">
+          <span>مفعّل</span>
+        </span>
+
+
+        <span *ngIf="item['status'] === '2'"
+          class="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gray-100 text-gray-800">
+          <span>
+            
+             قيد المراجعة  
+        
+          </span>
+        </span>
+        <a (click)="showAppointmentStatusModal(item['id'] , item['status'])">
+          <span  [inlineSVG]="
+                    './assets/media/icons/duotune/art/art005.svg'
+                  " class="svg-icon svg-icon-3"></span>
+        </a>
+      </div>
+            </td>
+    
+            <td>
+              <div class="d-flex justify-content-start flex-shrink-0" >
+
+                <!-- <a (click)="showEditStatusModal(item['id'] , item['status'] , item['payment_status'] )" class="
+                btn btn-icon btn-bg-light btn-active-color-primary btn-sm mx-2
+              ">
+                <span [inlineSVG]="
+                  './assets/media/icons/duotune/general/gen024.svg'
+                " class="svg-icon svg-icon-3"></span>
+              </a> -->
+                <a (click)="deleteAppointments(item['id'])" class="
+                  btn btn-icon btn-bg-light btn-active-color-primary btn-sm
+                ">
+                  <span [inlineSVG]="
+                    './assets/media/icons/duotune/general/gen027.svg'
+                  " class="svg-icon svg-icon-3"></span>
+                </a>
+        
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+      <!-- end::Table body -->
+    </table>
+    <!-- end::Table -->
+  </nz-spin>
+  </div>
+  <!-- end::Table container -->
+</div>
+
+
+<nz-modal [(nzVisible)]="isAppointmentStatusVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" 
+       [nzFooter]="modalFooter"
+    (nzOnCancel)="handleAppointmentStatusCancel()">
+    <ng-template #modalTitle>تحديث حالة الحجز </ng-template>
+
+    <ng-template #modalContent style="float: right;">
+        <p>حالة الحجز : </p>
+        <div class="row clearfix mt-3 ">
+          <div class="col-12 ">
+            <div class="form-group">
+              <div class="custom-controls-stacked ">
+                <nz-radio-group [(ngModel)]="appointmentStatus">
+                  <label nz-radio nzValue="1">مفعل</label>
+                  <label nz-radio nzValue="2">تحت المراجعة</label>
+                </nz-radio-group>
+              </div>
+            </div>
+          </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleAppointmentStatusCancel()">إغلاق </button>
+        <button nz-button nzType="primary" (click)="updateAppointmentStatus()">    تحديث
+      </button>
+
+    </ng-template>
+</nz-modal>
+
+
+<nz-modal [(nzVisible)]="isPaymentStatusVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handlePaymentStatusCancel()">
+    <ng-template #modalTitle>تحديث حالة الدفع </ng-template>
+
+    <ng-template #modalContent style="float: right;">
+    
+        <p>حالة الدفع : </p>
+        <div class="row clearfix mt-3 ">
+          <div class="col-12 ">
+            <div class="form-group">
+             
+              <div class="custom-controls-stacked ">
+            
+
+                <nz-radio-group [(ngModel)]="paymentStatus">
+                  <label nz-radio nzValue="1">مدفوع</label>
+                  <label nz-radio nzValue="2">غير مدفوع </label>
+                </nz-radio-group>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handlePaymentStatusCancel()">إغلاق </button>
+        <button nz-button nzType="primary" (click)="updatePaymentStatus()">    تحديث
+        </button>
+
+    </ng-template>
+</nz-modal>
+

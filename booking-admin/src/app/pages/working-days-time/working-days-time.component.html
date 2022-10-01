@@ -1,0 +1,217 @@
+<div class="pageHeader">
+    <span
+        class="text-dark fw-bolder text-hover-primary fs-4 flex place-items-center justify-center justify-items-center items-center">
+        <!-- <img src="assets/img/school.svg" class="svg-icon svg-icon-3" style="width:30px"/>  -->
+        <span class="my-auto">إدارة التواقيت</span>
+
+
+    </span>
+    <div class="action">
+        <button (click)="showAddDayTimeModal()" class="inline-style-header">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff"
+                class="w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+
+            <span>إضافة توقيت</span>
+        </button>
+    </div>
+</div>
+
+
+
+
+<div class="card-body py-3 bg-white">
+    <!-- begin::Table container -->
+    <nz-spin [nzSpinning]="isWoringDayLoading" >
+
+    <div class="table-responsive">
+        <!-- begin::Table -->
+        <div style="display: none;">
+            {{WoringDayList[0]['day_ar']}}
+        </div>
+
+        <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 ">
+            <!-- begin::Table head -->
+            <thead>
+                <tr class="fw-bolder text-muted">
+
+                    <th>اليوم </th>
+                    <th>الوقت المتاح</th>
+                    <th>الإجراء </th>
+                </tr>
+            </thead>
+            <!-- end::Table head -->
+            <!-- begin::Table body -->
+            <tbody>
+                <ng-container *ngFor="let item of WoringDayList">
+
+
+                    <tr *ngIf="item['is_added']">
+
+                        <td>
+                            <div class="d-flex align-items-center">
+
+                                <div class="d-flex justify-content-start flex-column">
+                                    <a href="#" class="text-dark fw-bolder text-hover-primary fs-8">
+                                        {{item['day_ar']}}
+
+                                    </a>
+
+                                </div>
+                            </div>
+                        </td>
+
+
+                        <td class="d-flex justify-content-start flex-shrink-0" *ngIf="item['times'][0]"
+                            style="border: unset;">
+
+
+
+                            <ng-container *ngFor="let times of item['times'] ; let i = index">
+
+                                <div class="border border-primary border-dashed rounded py-2 px-4 m-2" *ngIf="times">
+                                    <span class="text-dark fw-bolder text-hover-primary d-block fs-8">
+                                        {{times}}
+                                    </span>
+                                </div>
+
+
+                            </ng-container>
+                            <div class="border border-gray-300  border-dashed rounded py-2 px-4 m-2"
+                                (click)="showAddTimeModal(item['id'])">
+                                <span class="text-dark fw-bolder text-hover-primary d-block fs-8">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+
+                                </span>
+                            </div>
+
+
+
+
+
+                        </td>
+
+
+                        <td class="d-flex justify-content-start flex-shrink-0" *ngIf="item['times'][0] == null"
+                            style="border: unset;">
+                            <div class="border border-gray-300  border-dashed rounded py-2 px-4 m-2"
+                                (click)="showAddTimeModal(item['id'])">
+                                <span class="text-dark fw-bolder text-hover-primary d-block fs-8">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 4.5v15m7.5-7.5h-15" />
+                                    </svg>
+
+                                </span>
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            <div class="d-flex align-items-center">
+
+                                <div class="d-flex justify-content-start flex-column" 
+                                nz-popconfirm
+                                nzPopconfirmTitle="Are you sure delete this Day?"
+                                nzPopconfirmPlacement="bottom"
+                                (nzOnConfirm)="deleteDays(item['id'])"
+                                
+                                >
+                                    <span [inlineSVG]="
+                      './assets/media/icons/duotune/general/gen027.svg'
+                    " class="svg-icon svg-icon-3"></span>
+
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+            <!-- end::Table body -->
+        </table>
+        <!-- end::Table -->
+    </div>
+    <!-- end::Table container -->
+
+</nz-spin>
+
+</div>
+
+
+
+<nz-modal [(nzVisible)]="isAddTimeVisible" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="modalFooter"
+    (nzOnCancel)="handleAddTimeCancel()">
+    <ng-template #modalTitle>إضافة توقيت</ng-template>
+
+    <ng-template #modalContent style="float: right;">
+        <p> أختر الوقت : </p>
+        <nz-time-picker [(ngModel)]="time" [nzDefaultOpenValue]="defaultOpenValue"></nz-time-picker>
+    </ng-template>
+
+    <ng-template #modalFooter>
+        <button nz-button nzType="default" (click)="handleAddTimeCancel()">إغلاق </button>
+        <button nz-button nzType="primary" (click)="addTimeToDay()">
+
+            إضافة
+        </button>
+
+    </ng-template>
+</nz-modal>
+
+
+
+
+
+<nz-modal [(nzVisible)]="isAddDayTimeVisible" [nzTitle]="modalDayTimeTitle" [nzContent]="modalDayTimeContent"
+    [nzFooter]="modalDayTimeFooter" (nzOnCancel)="handleAddDayTimeCancel()">
+    <ng-template #modalDayTimeTitle>إضافة يوم / وقت</ng-template>
+
+    <ng-template #modalDayTimeContent style="float: right;">
+        <div>
+            <p> أختر اليوم : </p>
+            <div class="row mb-2" data-kt-buttons="true">
+                <div class="col-md-12 mb-2" dir="rtl">
+                    <nz-select nzShowSearch nzAllowClear [(ngModel)]="selectedValue" style="width: 100% !important;">
+                        <ng-container *ngFor="let WoringDayList of listOfDay">
+                            <nz-option nzLabel="{{WoringDayList['day_ar']}}" nzValue="{{WoringDayList['id']}}">
+                            </nz-option>
+                        </ng-container>
+                    </nz-select>
+                </div>
+            </div>
+            
+            <p> أختر الوقت : </p>
+            <div class="row mb-2" data-kt-buttons="true">
+                <ng-container *ngFor="let listOfTime of listOfTime" >
+                <div class="col-md-3 mb-2" dir="rtl">
+ 
+                <input  type="checkbox" class="btn-check" id="{{listOfTime['time']}}"
+                value="{{listOfTime['time']}}" [(ngModel)]="listOfTime['checked']" (change)="changeCheckbox(listOfTime)"/><label class="
+                btn btn-outline btn-outline-dashed btn-outline-default
+                w-100
+                p-1
+              " for="{{listOfTime['time']}}"><span class="fw-bolder fs-8">{{listOfTime['time']}}</span></label>
+         
+        </div>
+    </ng-container>
+    </div>
+        </div>
+    </ng-template>
+
+    <ng-template #modalDayTimeFooter>
+        <button nz-button nzType="default" (click)="handleAddDayTimeCancel()">إغلاق </button>
+        <button nz-button nzType="primary" (click)="addDayAndTime()">
+
+            إضافة
+        </button>
+
+    </ng-template>
+</nz-modal>

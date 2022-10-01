@@ -1,0 +1,44 @@
+.card-setting
+{
+width: 100% !important;
+background: #fff;
+padding: 1rem 2rem;
+}
+
+
+
+.pageHeader{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .action{
+
+    color: #fff !important;
+  background: #494949;
+  padding: 6px 13px;
+  border-radius: 0.475rem;
+    }
+  
+  
+    .action a{
+      color: #fff !important;
+  
+    }
+  .bg-white{
+    background: #fff;
+    padding: 1rem 2rem;
+  }
+ 
+
+  .inline-style-header{
+    display:flex ; 
+    place-items: center; 
+    gap: 10px;
+   justify-content:center;
+  }
+
+  .grid-center{
+    display:grid ; 
+    place-items: center; 
+  }
