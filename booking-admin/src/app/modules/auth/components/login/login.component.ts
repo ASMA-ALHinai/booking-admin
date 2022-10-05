@@ -3,9 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Subscription, Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { UserModel } from '../../models/user.model';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../../shared/service/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { NzMessageService } from 'ng-zorro-antd/message';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -29,13 +29,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private msg :NzMessageService
   ) {
-    this.isLoading$ = this.authService.isLoading$;
-    // redirect to home if already logged in
-    if (this.authService.currentUserValue) {
-      this.router.navigate(['/']);
-    }
+  
+  }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
   }
 
   ngOnInit(): void {
@@ -74,20 +74,19 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   submit() {
     this.hasError = false;
-    const loginSubscr = this.authService
-      .login(this.f.email.value, this.f.password.value)
-      .pipe(first())
-      .subscribe((user: UserModel | undefined) => {
-        if (user) {
-          this.router.navigate([this.returnUrl]);
-        } else {
-          this.hasError = true;
-        }
-      });
-    this.unsubscribe.push(loginSubscr);
-  }
+    let params={
+      "email":"khalfan.alamri20@gmail.com",
+      "password": "Aa123123"
+    }
+    this.authService.login(params).subscribe(
+      (res: any) => {
+        this.msg.success(res.message);
 
-  ngOnDestroy() {
-    this.unsubscribe.forEach((sb) => sb.unsubscribe());
-  }
+      },
+      (err) => {
+        this.msg.error(err.message);
+      }
+    );
+}
+
 }

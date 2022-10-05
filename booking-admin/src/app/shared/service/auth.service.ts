@@ -12,4 +12,15 @@ import { catchError, map } from "rxjs/operators";
 })
 export class AuthService {
   constructor(public http: HttpClient,public handler: HttpBackend) { }
+
+ login(params: any) {
+    return this.http
+      .post(`${environment.bookingBaseUrl}admin/login` ,  params)
+      .pipe(
+        map((data) => data),
+        catchError((error) => {
+          throw error;
+        })
+      );
+  }
 }

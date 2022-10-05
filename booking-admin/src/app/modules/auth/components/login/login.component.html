@@ -4,12 +4,10 @@
   <!--begin::Heading-->
   <div class="text-center mb-11">
     <h1 class="text-dark fw-bolder mb-3">
-      Sign In
+    تسجيل الدخول
     </h1>
     <!--begin::Subtitle-->
-    <div class="text-gray-500 fw-semibold fs-6">
-      Your Social Campaigns
-    </div>
+
     <!--end::Subtitle--->
     <!-- <div class="text-gray-400 fw-bold fs-4">
       New Here?
@@ -24,49 +22,15 @@
   <!--end::Heading-->
 
   <!--begin::Login options-->
-  <div class="row g-3 mb-9">
-    <!--begin::Col-->
-    <div class="col-md-6">
-      <!--begin::Google link--->
-      <a href="#"
-        class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100">
-        <img alt="Logo" src="./assets/media/svg/brand-logos/google-icon.svg" class="h-15px me-3" />
-        Sign in with Google
-      </a>
-      <!--end::Google link--->
-    </div>
-    <!--end::Col-->
 
-    <!--begin::Col-->
-    <div class="col-md-6">
-      <!--begin::Google link--->
-      <a href="#"
-        class="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100">
-        <img alt="Logo" src="./assets/media/svg/brand-logos/apple-black.svg" class="theme-light-show h-15px me-3" />
-        <img alt="Logo" src="./assets/media/svg/brand-logos/apple-black-dark.svg" class="theme-dark-show h-15px me-3" />
-        Sign in with Apple
-      </a>
-      <!--end::Google link--->
-    </div>
-    <!--end::Col-->
-  </div>
   <!--end::Login options-->
 
   <!--begin::Separator-->
-  <div class="separator separator-content my-14">
-    <span class="w-125px text-gray-500 fw-semibold fs-7">Or with email</span>
-  </div>
+
   <!--end::Separator-->
 
   <!-- begin::Alert info-->
-  <ng-container *ngIf="!hasError">
-    <div class="mb-10 bg-light-info p-8 rounded">
-      <div class="text-info">
-        Use account <strong>{{ defaultAuth.email }}</strong> and password
-        <strong>{{ defaultAuth.password }}</strong> to continue.
-      </div>
-    </div>
-  </ng-container>
+
   <!-- end::Alert info-->
 
 
@@ -82,7 +46,7 @@
 
   <!--begin::Form group-->
   <div class="fv-row mb-8">
-    <label class="form-label fs-6 fw-bolder text-dark">Email</label>
+    <label class="form-label fs-6 fw-bolder text-dark">البريد الإكتروني</label>
     <input class="form-control bg-transparent" type="email" name="email" formControlName="email" autocomplete="off"
       [ngClass]="{
         'is-invalid': loginForm.controls['email'].invalid,
@@ -114,7 +78,7 @@
   <!--begin::Form group-->
   <div class="fv-row mb-3">
 
-    <label class="form-label fw-bolder text-dark fs-6 mb-0">Password</label>
+    <label class="form-label fw-bolder text-dark fs-6 mb-0">الرقم السري</label>
 
     <input class="form-control bg-transparent" type="password" name="password" autocomplete="off"
       formControlName="password" [ngClass]="{
@@ -146,7 +110,7 @@
 
     <!--begin::Link-->
     <a routerLink="/auth/forgot-password" class="link-primary">
-      Forgot Password ?
+   هل نسيت كلمة المرور؟
     </a>
     <!--end::Link-->
   </div>
@@ -162,16 +126,16 @@
         </span>
       </ng-container>
       <ng-container *ngIf="(isLoading$ | async) === false">
-        <span class="indicator-label">Continue</span>
+        <span class="indicator-label">دخول</span>
       </ng-container>
     </button>
   </div>
 
   <div class="text-gray-500 text-center fw-semibold fs-6">
-    Not a Member yet?
+  لست عضو مسجل ؟
 
     <a routerLink="/auth/registration" class="link-primary">
-      Sign up
+    تسجيل الدخول
     </a>
   </div>
 
